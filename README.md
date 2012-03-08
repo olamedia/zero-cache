@@ -24,7 +24,7 @@ Setting driver
 $cache = new cachedValue('myCachedBlock', 3600);
 
 $apcDriver = new apcCache('prefix'); // apc key will be 'prefix'.$id
-$fileDriver = new apcCache(__DIR__.'/cache'); // filename will be __DIR__.'/cache/'.$id
+$fileDriver = new fileCache(__DIR__.'/cache'); // filename will be __DIR__.'/cache/'.$id
 $nullDriver = new nullCache(); // it will be created and used by default (does nothing)
 
 cachedValue::setDefaultDriver($fileDriver); // set default driver
