@@ -20,17 +20,14 @@ class fileCache{
 	public function getFilename($id){
 		return $this->_path.'/'.$id;
 	}
-	public function set($id, $value){
+	public function set($id, $value, $ttl){
 		\file_put_contents($this->getFilename($id), $value);
 	}
 	public function get($id){
 		return \file_get_contents($this->getFilename($id));
 	}
-	public function lastModified($id){
-		return \filemtime($this->getFilename($id));
-	}
-	public function isValid($id){
-		return \is_file($this->getFilename($id));
+	public function isValid($id, $ttl){
+		return \is_file($this->getFilename($id))?(\filemtime($this->getFilename($id)) + $ttl > time()):false;
 	}
 }
 

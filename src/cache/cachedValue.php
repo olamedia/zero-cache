@@ -15,7 +15,7 @@ namespace zero;
 class cachedValue{
 	protected $_id = null;
 	protected $_lifetime = null;
-	protected $_data = '';
+	protected $_value = '';
 	protected $_driver = null;
 	protected static $_defaultDriver = null;
 	public function __construct($id, $lifetime = 3600){
@@ -26,18 +26,13 @@ class cachedValue{
 		return $this->getDriver()->lastModified($this->_id);
 	}
 	public function isValid(){
-		return $this->getDriver()->isValid($this->_id)
-			&&
-			(false !== 
-					($mtime = $this->lastModified())
-			)
-			&& ($mtime + $this->_lifetime > time());
+		return $this->getDriver()->isValid($this->_id, $this->_lifetime);
 	}
 	public function get(){
 		return $this->getDriver()->get($this->_id);
 	}
 	public function set($value){
-		$this->_data = $value;
+		$this->_value = $value;
 		$this->save();
 	}
 	public function start(){ // if ($cache->start()) { .... $cache->end(); }
@@ -49,13 +44,13 @@ class cachedValue{
 		return true;
 	}
 	public function end(){
-		$this->_data = \ob_get_flush();
+		$this->_value = \ob_get_flush();
 		$this->save();
 		return $this;
 	}
 	public function save(){
 		if (null !== $this->_driver){
-			$this->getDriver()->save();
+			$this->getDriver()->set($this->_id, $this->_value, $this->_lifetime);
 		}
 		return $this;
 	}

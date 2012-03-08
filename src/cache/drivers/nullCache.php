@@ -13,14 +13,14 @@
 namespace zero;
 
 class nullCache{
-	public function set($id, $value){
+	public function set($id, $value, $ttl){
 	}
 	public function get($id){
 	}
 	public function lastModified($id){
 		return false;
 	}
-	public function isValid($id){
+	public function isValid($id, $ttl){
 		return false;
 	}
 }

@@ -26,10 +26,7 @@ class apcCache{
 	public function get($id){
 		return \apc_fetch($this->getKey($id));
 	}
-	public function lastModified($id){
-		return \apc_exists($this->getKey($id))?\time():false;
-	}
-	public function isValid($id){
+	public function isValid($id, $ttl){
 		return \apc_exists($this->getKey($id));
 	}
 }
